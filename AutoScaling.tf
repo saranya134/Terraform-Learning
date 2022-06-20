@@ -15,7 +15,7 @@ resource "aws_launch_configuration" "My-Terraform-launch-configuration" {
 
 //This code is for Auto-Scaling group
 resource "aws_autoscaling_group" "My-ASG" {
-  name                 = "terraform-asg-example"
+  name                 = "terraform-asg"
   launch_configuration = aws_launch_configuration.My-Terraform-launch-configuration.name
   availability_zones   = [data.aws_availability_zones.Avaliable-AZ.names][0]
   #vpc_zone_identifier = []
