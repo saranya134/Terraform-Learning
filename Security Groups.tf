@@ -1,6 +1,6 @@
 // I have same SG for instances and ELB
-resource "aws_security_group" "SG-APP" {
-  name        = "SG-FOR-APP"
+resource "aws_security_group" "Terraform-SG" {
+  name        = "Terraform-SG"
   description = "This sg is created for webapp"
 
   ingress {
@@ -19,6 +19,6 @@ resource "aws_security_group" "SG-APP" {
   }
 
   tags = {
-    Name = "SG-APP"
+    Name = "Terraform-SG"
   }
 }
