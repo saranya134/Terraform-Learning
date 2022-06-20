@@ -11,5 +11,5 @@ variable "instance_type" {
 variable "key_pair" {
     type = string
     description = "Key Pair you want to attach to the instance"
-    default="Terraform-Test"
+    default="terraform"
 }
