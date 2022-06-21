@@ -4,7 +4,7 @@ resource "aws_launch_configuration" "launchconfig" {
   instance_type   = "t2.small"
   name_prefix = "testing"
   security_groups = [aws_security_group.securitygroup.id]
-  user_data       = file("./script.sh")
+  user_data       = file("./appscript.sh")
 
   lifecycle {
     create_before_destroy = true
