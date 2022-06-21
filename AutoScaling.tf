@@ -1,12 +1,12 @@
 // This code is launch configuration
-resource "aws_launch_configuration" "My-Terraform-launch-configuration" {
-  name   = "Terraform"
+resource "aws_launch_configuration" "terraformlaunch" {
+  name   = "Terraform-launch"
   image_id      = data.aws_ami.AMIFOREC2.id
   instance_type = var.instance_type
   key_name = var.key_pair
   user_data = file("${path.module}/appscript.sh")
   associate_public_ip_address = true
-  security_groups = [aws_security_group.SG-APP.id]
+  security_groups = [aws_security_group.Terraform-SG.id]
   iam_instance_profile = data.aws_iam_role.Role.name
   lifecycle {
     create_before_destroy = true
@@ -16,7 +16,7 @@ resource "aws_launch_configuration" "My-Terraform-launch-configuration" {
 //This code is for Auto-Scaling group
 resource "aws_autoscaling_group" "My-ASG" {
   name                 = "terraform-asg"
-  launch_configuration = aws_launch_configuration.My-Terraform-launch-configuration.name
+  launch_configuration = aws_launch_configuration.terraformlaunch.name
   availability_zones   = [data.aws_availability_zones.Avaliable-AZ.names][0]
   #vpc_zone_identifier = []
   min_size             = 1
@@ -25,6 +25,13 @@ resource "aws_autoscaling_group" "My-ASG" {
   health_check_type         = "EC2"
   force_delete              = true
   load_balancers = [aws_elb.My-Terraform-LB.name]
+  instance_refresh {
+    strategy = "Rolling"
+    preferences {
+      min_healthy_percentage = 50
+    }
+  }
+
 
   tag {
     key                 = "Name"
